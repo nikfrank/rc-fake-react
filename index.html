@@ -1,0 +1,65 @@
+<html>
+  <head>
+  </head>
+  <body>
+    <div id="root"></div>
+    
+    <script type="text/javascript">
+      let state = {
+        name: '',
+        bgcolor: '#ee38',
+      };
+
+      const setState = (nextState)=>{
+        console.log('setState', nextState, state);
+        state = {
+          ...state,
+          ...nextState,
+        };
+
+        render();
+      };
+
+      const render = ()=>{
+        const rootDiv = document.createElement('div');
+
+        const input = document.createElement('input');
+        input.id = 'name';
+        input.oninput = (event)=>{
+          setState({ name: event.target.value });
+          setTimeout(()=> document.querySelector('#name').focus(), 0);
+        };
+        input.value = state.name;
+        // <input onChange={e=> setState(e.target.value)} value={state.name} />
+
+        rootDiv.appendChild(input);
+
+        const span = document.createElement('span');
+        span.innerText = state.name;
+        
+        // <span>{state.name}</span>
+
+        const bginput = document.createElement('input');
+        bginput.id = 'bg';
+        bginput.oninput = (event)=>{
+          setState({ bgcolor: event.target.value });
+          setTimeout(()=> document.querySelector('#bg').focus(), 0);
+        };
+        bginput.value = state.bgcolor;
+
+        rootDiv.appendChild(bginput);
+        
+        document.body.style.backgroundColor = state.bgcolor;
+        
+        rootDiv.appendChild(span);
+
+        const reactDOMroot = document.querySelector('div#root');
+        
+        reactDOMroot.innerHTML = '';
+        reactDOMroot.appendChild(rootDiv);
+      };
+
+      render();
+    </script>
+  </body>
+</html>
